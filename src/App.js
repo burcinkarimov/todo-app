@@ -1,6 +1,8 @@
 import { useState } from "react";
 import PrimaryButton from "./components/PrimaryButton";
 import TextInput from "./components/TextInput";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faPlus, faPenToSquare, faXmark, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [tasks, setTasks] = useState(['mock task', 'another mock task', 'do laundry', 'adding new task works though']);
@@ -40,11 +42,12 @@ function App() {
           <PrimaryButton text="Add" />
         </form>
         <div className="flex gap-2 items-center">
-          <input type="checkbox" id="showDoneCheckbox"/>
-          <label htmlFor="showDoneCheckbox">Show Done</label>
+          <FontAwesomeIcon icon={faCheck} className="p-2 mr-2 border-[1px] text-amber-200 hover:bg-amber-200 hover:text-white cursor-pointer" />
+          <p>Show Done</p>
         </div>
-        <div>
-        <TextInput placeholder="Search..." />
+        <div className="relative">
+          <TextInput placeholder="Search..." />
+          <FontAwesomeIcon icon={faXmark} className="absolute right-2 top-2 py-1 px-2 border-[1px] text-indigo-400 hover:bg-indigo-600 hover:text-white cursor-pointer" />
         </div>
         <form onSubmit={handleTaskSubmit}>
           <TextInput placeholder="Add a new task..." value={newTask} onChange={handleTaskChange} />
@@ -55,18 +58,24 @@ function App() {
         <div className="w-2/5 p-10 border-2 overflow-scroll">
           <ul>
             {categories.map((category, index) => (
-              <li key={index} className="p-2 border-[1px] my-2">{category}</li>
+              <li key={index} className="p-2 border-[1px] my-2 flex items-center justify-between">
+                <p>{category}</p>
+                <div className="flex gap-1">
+                  <FontAwesomeIcon icon={faTrash} className="p-2 border-[1px] text-indigo-400 hover:bg-indigo-600 hover:text-white cursor-pointer" />
+                  <FontAwesomeIcon icon={faPlus} className="p-2 border-[1px]  text-indigo-400 hover:bg-indigo-600 hover:text-white cursor-pointer" />
+                </div>
+              </li>
             ))}
           </ul>
         </div>
         <div className="w-3/5 p-10 border-2 overflow-scroll">
           <ul>
             {tasks.map((task, index) => (
-              <div className="flex items-center gap-2">
-                <li key={index} className="p-2 border-[1px] my-2 w-full">
-                  {task}
-                </li>
-              </div>
+              <li key={index} className="p-2 border-[1px] my-2 flex items-center">
+                <FontAwesomeIcon icon={faCheck} className="p-2 mr-4 border-[1px] text-amber-200 hover:bg-amber-200 hover:text-white cursor-pointer" />
+                <p>{task}</p>
+                <FontAwesomeIcon icon={faPenToSquare} className="ml-auto p-2 border-[1px] text-indigo-400 hover:bg-indigo-600 hover:text-white cursor-pointer" />
+              </li>
             ))}
           </ul>
         </div>
