@@ -38,12 +38,19 @@ function App() {
     setTasks(updatedTasks);
   }
 
+  const handleDeleteCategory = (index) => {
+    const updatedCategories = [...categories];
+    updatedCategories.splice(index, 1);
+    setCategories(updatedCategories);
+  }
+
   return (
     <div className="p-4 md:p-10">
       <div className="block md:flex h-[550px] gap-2">
         <Categories 
           handleCategorySubmit={handleCategorySubmit}
           handleCategoryChange={handleCategoryChange}
+          handleDeleteCategory={handleDeleteCategory}
           newCategory={newCategory}
           categories={categories}
         /> 
