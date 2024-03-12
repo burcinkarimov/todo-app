@@ -32,6 +32,12 @@ function App() {
     }
   }
 
+  const handleDeleteTask = (index) => {
+    const updatedTasks = [...tasks];
+    updatedTasks.splice(index, 1);
+    setTasks(updatedTasks);
+  }
+
   return (
     <div className="p-4 md:p-10">
       <div className="block md:flex h-[550px] gap-2">
@@ -44,6 +50,7 @@ function App() {
         <Dashboard 
           handleTaskSubmit={handleTaskSubmit}
           handleTaskChange={handleTaskChange}
+          handleDeleteTask={handleDeleteTask}
           newTask={newTask}
           tasks={tasks}
         />
