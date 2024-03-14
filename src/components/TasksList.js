@@ -3,8 +3,8 @@ import TasksListItem from "./TasksListItem";
 function TasksList({ tasks, handleDeleteTask }) {
   return (
     <ul>
-      {tasks.map((task, index) => (
-        <TasksListItem task={task} key={index} index={index} handleDeleteTask={handleDeleteTask} /> 
+      {tasks.map((task) => (
+        <TasksListItem task={task} key={task.id} index={task.id} handleDeleteTask={handleDeleteTask} /> 
       ))}
     </ul>
   );

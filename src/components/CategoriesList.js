@@ -3,8 +3,8 @@ import CategoriesListItem from "./CategoriesListItem";
 function CategoriesList({ categories, handleDeleteCategory }) {
   return (
     <ul>
-      {categories.map((category, index) => (
-        <CategoriesListItem category={category} key={index} index={index} handleDeleteCategory={handleDeleteCategory} />
+      {categories.map((category) => (
+        <CategoriesListItem category={category} key={category.id} index={category.id}  handleDeleteCategory={handleDeleteCategory} />
       ))}
     </ul>
   );

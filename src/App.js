@@ -1,10 +1,11 @@
 import { useState } from "react";
 import Dashboard from "./components/Dashboard";
 import Categories from "./components/Categories";
+import { v4 } from "uuid";
 
 function App() {
-  const [tasks, setTasks] = useState(['mock task', 'another mock task', 'do laundry', 'adding new task works though']);
-  const [categories, setCategories] = useState(['mock category', 'Work', 'Personal', 'adding new categories works']);
+  const [tasks, setTasks] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [newTask, setNewTask] = useState('');
   const [newCategory, setNewCategory] = useState('');
 
@@ -19,7 +20,11 @@ function App() {
   const handleTaskSubmit = (event) => {
     event.preventDefault();
     if(newTask.trim() !== '') {
-      setTasks([...tasks, newTask]);
+      const task = {
+        id: v4(),
+        text: newTask.trim(),
+      }
+      setTasks([...tasks, task]);
       setNewTask('');
     }
   }
@@ -27,21 +32,21 @@ function App() {
   const handleCategorySubmit = (event) => {
     event.preventDefault();
     if(newCategory.trim() !== '') {
-      setCategories([...categories, newCategory]);
+      const category = {
+        id: v4(),
+        text: newCategory.trim(),
+      }
+      setCategories([...categories, category]);
       setNewCategory('');
     }
   }
 
-  const handleDeleteTask = (index) => {
-    const updatedTasks = [...tasks];
-    updatedTasks.splice(index, 1);
-    setTasks(updatedTasks);
+  const handleDeleteTask = (taskId) => {
+    setTasks(tasks.filter(task => task.id !== taskId))
   }
 
-  const handleDeleteCategory = (index) => {
-    const updatedCategories = [...categories];
-    updatedCategories.splice(index, 1);
-    setCategories(updatedCategories);
+  const handleDeleteCategory = (catId) => {
+    setCategories(categories.filter(category => category.id !== catId))
   }
 
   return (
