@@ -1,10 +1,10 @@
 import CategoriesListItem from "./CategoriesListItem";
 
-function CategoriesList({ categories, handleDeleteCategory }) {
+function CategoriesList({ handleSubCategorySubmit, categories, handleDeleteCategory, handleCategorySubmit }) {
   return (
     <ul>
       {categories.map((category) => (
-        <CategoriesListItem category={category} key={category.id} index={category.id}  handleDeleteCategory={handleDeleteCategory} />
+        <CategoriesListItem category={category} key={category.id} handleSubCategorySubmit={handleSubCategorySubmit} handleDeleteCategory={handleDeleteCategory} handleCategorySubmit={handleCategorySubmit} />
       ))}
     </ul>
   );

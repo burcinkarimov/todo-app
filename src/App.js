@@ -5,7 +5,7 @@ import { v4 } from "uuid";
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]); // {id: 1, children: []}, {id:2 , children: []}
   const [newTask, setNewTask] = useState('');
   const [newCategory, setNewCategory] = useState('');
 
@@ -34,19 +34,42 @@ function App() {
     if(newCategory.trim() !== '') {
       const category = {
         id: v4(),
-        text: newCategory.trim(),
+        name: newCategory.trim(),
+        children: [],
       }
       setCategories([...categories, category]);
       setNewCategory('');
     }
   }
+  
+  const handleSubCategorySubmit = (parentCategoryId) => {
+    const parentCategoryIndex = categories.findIndex(category => category.id === parentCategoryId);
+
+    if (parentCategoryIndex !== -1) {
+      const parentCategory = categories[parentCategoryIndex];
+  
+      const newChildCategory = {
+        id: v4(),
+        name: `Child of ${parentCategory.name}`,
+        children: [],
+      };
+  
+      const updatedCategories = [...categories];
+      updatedCategories[parentCategoryIndex] = {
+        ...parentCategory,
+        children: [...parentCategory.children, newChildCategory],
+      };
+  
+      setCategories(updatedCategories);
+    }
+  }
 
   const handleDeleteTask = (taskId) => {
-    setTasks(tasks.filter(task => task.id !== taskId))
+    setTasks(tasks.filter(task => task.id !== taskId));
   }
 
   const handleDeleteCategory = (catId) => {
-    setCategories(categories.filter(category => category.id !== catId))
+    setCategories(categories.filter(category => category.id !== catId));
   }
 
   return (
@@ -56,6 +79,7 @@ function App() {
           handleCategorySubmit={handleCategorySubmit}
           handleCategoryChange={handleCategoryChange}
           handleDeleteCategory={handleDeleteCategory}
+          handleSubCategorySubmit={handleSubCategorySubmit}
           newCategory={newCategory}
           categories={categories}
         /> 
