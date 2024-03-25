@@ -2,9 +2,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 function CategoriesListItem({ category, handleDeleteCategory, handleSubCategorySubmit}) {
-  console.log("category", category);
   return (
-  <div>
+    <div>
       <li className="p-2 border-[1px] my-2 flex items-center justify-between">
         <p>{category.name}</p>
         <div className="flex gap-1">
@@ -19,14 +18,17 @@ function CategoriesListItem({ category, handleDeleteCategory, handleSubCategoryS
 
     {category.children.length > 0 && 
       <div className="ml-5">
-        {category.children.map((childCategory, index) => (
-          <CategoriesListItem 
-            key={index}
-            category={childCategory} 
-            handleDeleteCategory={handleDeleteCategory} 
-            handleSubCategorySubmit={handleSubCategorySubmit} 
-          />
-        ))}
+        {category.children.map((childCategory, index) => {
+          // console.log(childCategory);
+          return (
+            <CategoriesListItem 
+              key={index}
+              category={childCategory} 
+              handleDeleteCategory={handleDeleteCategory} 
+              handleSubCategorySubmit={() => handleSubCategorySubmit(childCategory.id)} 
+            />
+          );
+        })}
       </div>
     }
   </div>

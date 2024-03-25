@@ -9,7 +9,11 @@ function Categories({ handleSubCategorySubmit, handleCategoryChange, handleCateg
         handleCategorySubmit = {handleCategorySubmit}
         newCategory={newCategory}
       />
-      <CategoriesList categories={categories} handleSubCategorySubmit={handleSubCategorySubmit} handleDeleteCategory={handleDeleteCategory} handleCategorySubmit={handleCategorySubmit} /> 
+      <CategoriesList 
+        categories={categories} 
+        handleSubCategorySubmit={handleSubCategorySubmit} 
+        handleDeleteCategory={handleDeleteCategory} 
+      /> 
     </div>
   );
 }
