@@ -5,7 +5,7 @@ import { v4 } from "uuid";
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const [categories, setCategories] = useState([]); // {id: 1, children: []}, {id:2 , children: []}
+  const [categories, setCategories] = useState([]);
   const [newTask, setNewTask] = useState('');
   const [newCategory, setNewCategory] = useState('');
 
@@ -35,33 +35,64 @@ function App() {
       const category = {
         id: v4(),
         name: newCategory.trim(),
-        children: [],
+        depth: 0, 
+        subcategories: [],
       }
-      setCategories([...categories, category]);
+      setCategories([...categories, category])
       setNewCategory('');
     }
   }
-  
-  const handleSubCategorySubmit = (parentCategoryId) => {
-    const parentCategoryIndex = categories.findIndex(category => category.id === parentCategoryId);
 
-    if (parentCategoryIndex !== -1) {
-      const parentCategory = categories[parentCategoryIndex];
+  const handleSubcategorySubmit = (parentCategoryId, parentCategory) => {
+    const newSubcategory = {
+      id: v4(),
+      name: `child of ${parentCategory.name}`,
+      depth: parentCategory.depth + 1, 
+      subcategories: [],
+    };
+
+    setCategories(prevCategories => 
+      prevCategories.map(category => {
+        if (category.id === parentCategoryId) {
+          return {
+            ...category,
+            subcategories: [...category.subcategories, newSubcategory]
+          } 
+        } else if (category.subcategories.length > 0) {
+          return {
+            ...category, 
+            subcategories: addSubcategories(
+              category.subcategories,
+              parentCategoryId,
+              newSubcategory,
+              parentCategory.depth + 1
+            )
+          }
+        } else {
+          return category;
+        }
+      })
+    );
+  };
   
-      const newChildCategory = {
-        id: v4(),
-        name: `Child of ${parentCategory.name}`,
-        children: [],
-      };
-  
-      const updatedCategories = [...categories];
-      updatedCategories[parentCategoryIndex] = {
-        ...parentCategory,
-        children: [...parentCategory.children, newChildCategory],
-      };
-  
-      setCategories(updatedCategories);
-    }
+  const addSubcategories = (subcategories, parentCategoryId, newSubcategory, parentDepth) => {
+    return subcategories.map((category) => {
+      if(category.id === parentCategoryId) {
+        return { ...category, subcategories: [...category.subcategories, newSubcategory]}
+      } else if (category.subcategories.length > 0) {
+        return {
+          ...category, 
+            subcategories: addSubcategories(
+              category.subcategories,
+              parentCategoryId,
+              newSubcategory,
+              parentDepth
+            )
+        }
+      } else {
+        return category;
+      }
+    })
   }
 
   const handleDeleteTask = (taskId) => {
@@ -69,8 +100,20 @@ function App() {
   }
 
   const handleDeleteCategory = (catId) => {
-    setCategories(categories.filter(category => category.id !== catId));
-  }
+    const deleteCategoryAndSubcategories = (categoriesArray) => {
+      return categoriesArray.filter(category => {
+        if (category.id === catId) {
+          return false;
+        }
+        if (category.subcategories.length > 0) {
+          category.subcategories = deleteCategoryAndSubcategories(category.subcategories);
+        }
+        return true;
+      });
+    };
+  
+    setCategories(prevCategories => deleteCategoryAndSubcategories(prevCategories));
+  };
 
   return (
     <div className="p-4 md:p-10">
@@ -79,7 +122,7 @@ function App() {
           handleCategorySubmit={handleCategorySubmit}
           handleCategoryChange={handleCategoryChange}
           handleDeleteCategory={handleDeleteCategory}
-          handleSubCategorySubmit={handleSubCategorySubmit}
+          handleSubcategorySubmit={handleSubcategorySubmit}
           newCategory={newCategory}
           categories={categories}
         /> 
