@@ -1,7 +1,7 @@
 import CategoriesList from "./CategoriesList";
 import AddNewCategory from "./AddNewCategory";
 
-function Categories({ handleCategoryChange, handleCategorySubmit, newCategory, categories }) {
+function Categories({ handleSubcategorySubmit, handleCategoryChange, handleCategorySubmit, handleDeleteCategory, newCategory, categories }) {
   return (
     <div className="w-full md:w-1/3 p-4 gap-3 overflow-scroll shadow-lg bg-gray-50">
       <AddNewCategory 
@@ -9,7 +9,11 @@ function Categories({ handleCategoryChange, handleCategorySubmit, newCategory, c
         handleCategorySubmit = {handleCategorySubmit}
         newCategory={newCategory}
       />
-      <CategoriesList categories={categories} /> 
+      <CategoriesList 
+        categories={categories} 
+        handleSubcategorySubmit={handleSubcategorySubmit} 
+        handleDeleteCategory={handleDeleteCategory} 
+      /> 
     </div>
   );
 }
