@@ -17,9 +17,8 @@ function CategoriesListItem({ category, handleDeleteCategory, handleSubcategoryS
       </li>
 
       {category.subcategories.map((subcategory) => (
-        <div className="ml-5">
+        <div className="ml-5" key={subcategory.id}>
           <CategoriesListItem 
-            key={subcategory.id} 
             category={subcategory} 
             handleDeleteCategory={handleDeleteCategory} 
             handleSubcategorySubmit={handleSubcategorySubmit}
